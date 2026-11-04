@@ -1,0 +1,72 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Codex and machine-local tooling state
+.codex/
+.aws/
+.cache/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Embedded and build outputs
+.pio/
+.build/
+build/
+dist/
+*.o
+*.obj
+*.elf
+*.hex
+
+# Test and coverage output
+.coverage
+coverage/
+htmlcov/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Agent folders may hold credentials (Spec Kit security notice); track only
+# the generated Spec Kit commands.
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/speckit-*/
+docs/
+
+# LaTeX article build output
+article/build/
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
