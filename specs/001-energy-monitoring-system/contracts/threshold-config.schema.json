@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:unmsm:energy:v1:threshold-config",
+  "title": "Active-power threshold configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "config_version",
+    "node_id",
+    "circuit_id",
+    "effective_at",
+    "active_power_limit_W",
+    "confirm_ms",
+    "clear_below_W",
+    "clear_ms",
+    "severity",
+    "local_warning_enabled"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "config_version": { "type": "integer", "minimum": 1 },
+    "node_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,31}$" },
+    "circuit_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,31}$" },
+    "effective_at": { "type": "string", "format": "date-time" },
+    "active_power_limit_W": { "type": "number", "exclusiveMinimum": 0, "maximum": 2500 },
+    "confirm_ms": { "type": "integer", "minimum": 1000, "maximum": 300000, "default": 10000 },
+    "clear_below_W": { "type": "number", "minimum": 0, "maximum": 2500 },
+    "clear_ms": { "type": "integer", "minimum": 1000, "maximum": 300000 },
+    "severity": { "enum": ["warning", "critical"] },
+    "local_warning_enabled": { "type": "boolean" }
+  }
+}

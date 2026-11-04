@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:unmsm:energy:v1:measurement-ack",
+  "title": "Durable measurement acknowledgement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "acknowledged_at",
+    "message_id",
+    "node_id",
+    "boot_id",
+    "sequence",
+    "status",
+    "reason_code"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "acknowledged_at": { "type": "string", "format": "date-time" },
+    "message_id": { "type": "string", "format": "uuid" },
+    "node_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,31}$" },
+    "boot_id": { "type": "string", "format": "uuid" },
+    "sequence": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "status": { "enum": ["accepted", "duplicate", "rejected"] },
+    "reason_code": { "type": ["string", "null"], "maxLength": 64 },
+    "stored_at": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "rejected" } } },
+      "then": { "properties": { "reason_code": { "type": "string", "minLength": 1 } } }
+    },
+    {
+      "if": { "properties": { "status": { "enum": ["accepted", "duplicate"] } } },
+      "then": { "properties": { "stored_at": { "type": "string", "format": "date-time" } }, "required": ["stored_at"] }
+    }
+  ]
+}

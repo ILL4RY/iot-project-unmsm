@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "message_id": "123e4567-e89b-42d3-a456-426614174000",
+  "node_id": "node-001",
+  "circuit_id": "lab-load-001",
+  "boot_id": "123e4567-e89b-42d3-8456-426614174001",
+  "sequence": 42,
+  "window": {
+    "start": "2026-10-14T17:00:00.000Z",
+    "end": "2026-10-14T17:00:05.000Z",
+    "duration_ms": 5000,
+    "sample_count": 20000
+  },
+  "clock": { "source": "sntp", "last_sync_age_s": 30 },
+  "measurements": {
+    "voltage_rms": { "value": 219.8 },
+    "current_rms": { "value": 2.31, "unit": "A" },
+    "active_power": { "value": 491.2, "unit": "W" },
+    "active_energy_import_total": {
+      "value": 12543.8,
+      "unit": "Wh",
+      "counter_id": "123e4567-e89b-42d3-9456-426614174002"
+    }
+  },
+  "quality": {
+    "state": "valid",
+    "flags": [],
+    "valid_sample_ratio": 1.0,
+    "calibration_revision": "cal-node-001-2026-10-14-r1"
+  },
+  "uptime_ms": 3605000,
+  "unexpected": true
+}

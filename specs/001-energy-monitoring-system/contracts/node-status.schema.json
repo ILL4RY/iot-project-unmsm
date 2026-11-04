@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:unmsm:energy:v1:node-status",
+  "title": "Monitoring node status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "node_id",
+    "boot_id",
+    "observed_at",
+    "state",
+    "firmware_version",
+    "hardware_revision",
+    "calibration_revision",
+    "clock_source",
+    "acquisition_state",
+    "pending_records",
+    "oldest_pending_age_s",
+    "last_valid_window_end",
+    "last_error_code"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "node_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,31}$" },
+    "boot_id": { "type": "string", "format": "uuid" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "state": { "enum": ["online", "degraded", "offline"] },
+    "firmware_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "hardware_revision": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "calibration_revision": { "type": ["string", "null"], "maxLength": 64 },
+    "clock_source": { "enum": ["sntp", "holdover", "unsynchronized"] },
+    "acquisition_state": { "enum": ["sampling", "degraded", "stopped"] },
+    "pending_records": { "type": "integer", "minimum": 0, "maximum": 65535 },
+    "oldest_pending_age_s": { "type": "integer", "minimum": 0 },
+    "last_valid_window_end": { "type": ["string", "null"], "format": "date-time" },
+    "last_error_code": { "type": ["string", "null"], "maxLength": 64 }
+  }
+}
