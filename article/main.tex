@@ -1,0 +1,54 @@
+% IEEE conference paper (in Spanish): IoT-based real-time electrical energy monitoring.
+% Build: `make` in this directory (see README.md). Output: build/main.pdf
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla,es-noshorthands,es-nodecimaldot]{babel}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{url}
+
+\graphicspath{{figures/}}
+\sisetup{output-decimal-marker={,}}
+\renewcommand{\IEEEkeywordsname}{Palabras clave}
+
+\input{metadata}
+
+% Drafting helper; remove all \todo{} before submission.
+\newcommand{\todo}[1]{\textcolor{red}{[PENDIENTE: #1]}}
+
+\begin{document}
+
+\title{\papertitle}
+
+\author{
+\IEEEauthorblockN{\paperauthors}
+\IEEEauthorblockA{\paperaffiliation}
+}
+
+\maketitle
+
+\begin{abstract}
+\todo{Redactar al final, a partir de los resultados.}
+\end{abstract}
+
+\begin{IEEEkeywords}
+\paperkeywords
+\end{IEEEkeywords}
+
+\input{sections/01-introduction}
+\input{sections/02-methodology}
+\input{sections/03-results-discussion}
+\input{sections/04-conclusions}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

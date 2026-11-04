@@ -1,0 +1,62 @@
+% Section I. Target: ~25% of the body (see SPEC.md).
+% Evidence: research/comparison.csv, research/limitations-evidence.md,
+% research/peru-energy-stats.md (abstract-level; verified 2026-10-28).
+\section{Introducción}
+\label{sec:introduction}
+
+% A. Problem context.
+La gestión eficiente de la energía eléctrica requiere información oportuna y detallada sobre cómo, cuándo y en qué cantidad se consume.
+En el Perú, la producción total de electricidad alcanzó \SI{63565}{GWh} en 2024, con un incremento de \SI{2,4}{\percent} respecto al año anterior~\cite{minem2025produccion}.
+Asimismo, en el primer trimestre de 2024 el \SI{96,0}{\percent} de la población tenía acceso a la energía eléctrica por red pública~\cite{inei2024acceso}.
+Con una cobertura tan amplia, el reto se desplaza progresivamente desde el acceso hacia el uso informado y eficiente de la energía.
+
+Sin embargo, la supervisión del consumo suele basarse en lecturas periódicas o en la facturación mensual acumulada.
+Estos registros agregados no permiten identificar oportunamente variaciones de demanda, picos de consumo ni patrones horarios de utilización.
+Los sistemas basados en Internet de las Cosas (IoT) permiten medir variables eléctricas con mayor frecuencia, transmitirlas a plataformas digitales y analizarlas de forma continua~\cite{rind2023perspective}.
+Estas capacidades resultan útiles en viviendas, edificios, laboratorios y pequeñas instalaciones industriales.
+No obstante, la utilidad de un sistema de este tipo depende de la exactitud de sus mediciones, de la calidad de los datos, de la latencia de transmisión y de su capacidad para producir indicadores energéticos interpretables.
+
+% B. Related work.
+La literatura reciente presenta numerosos medidores IoT de bajo costo.
+Sousa \textit{et~al.}~\cite{sousa2023smartmeter} desarrollaron un medidor inalámbrico basado en ESP32 con medición de calidad de energía para aplicaciones de redes inteligentes.
+Garcés \textit{et~al.}~\cite{garces2025iotmeter} propusieron un medidor con sensores no invasivos y calibración manual de señales para entornos residenciales e industriales.
+Munoz \textit{et~al.}~\cite{munoz2024smartmeter} construyeron un medidor trifásico con un costo inferior a \SI{80}{USD} que mide, entre otras magnitudes, potencias activa, reactiva y aparente, factor de potencia y armónicos, con un error absoluto menor al \SI{1}{\percent}.
+Otros trabajos emplean módulos de medición integrados: Rohman \textit{et~al.}~\cite{rohman2025esp32} supervisaron generadores trifásicos con un módulo PZEM-016 y un servidor web local en el ESP32 que no requiere acceso a internet.
+
+Un segundo grupo de trabajos enfatiza la validación experimental frente a instrumentos de referencia.
+Kizonde \textit{et~al.}~\cite{kizonde2023monitoringnode} compararon un nodo de monitoreo con una unidad de medición de potencia y reportaron baja linealidad para cargas de baja potencia y un sesgo considerable para cargas de alta potencia.
+Cárdenas Magaña \textit{et~al.}~\cite{cardenas2026residential} validaron un sistema ESP32 con PZEM-004T frente a un instrumento comercial calibrado, usando cargas inductivas, resistivas y electrónicas, con errores absolutos medios de \SI{0,31}{V}, \SI{0,008}{A} y \SI{1,16}{W}.
+Marin \textit{et~al.}~\cite{marin2026rmsbenchmark} contrastaron mediciones RMS de tensión y corriente obtenidas con nodos Arduino y sensores de efecto Hall frente a un analizador de calidad de energía de referencia.
+
+Un tercer grupo aborda la comunicación y la plataforma de datos.
+Khan y Pirak~\cite{khan2021mqtt} evaluaron experimentalmente los protocolos MQTT y CoAP para un medidor NB-IoT, incluyendo la pérdida de paquetes en distintos entornos de instalación.
+Nizam \textit{et~al.}~\cite{nizam2024realtime} integraron Modbus, ESP-NOW y MQTT en un sistema de monitoreo con actualizaciones cada \SI{5}{s}.
+De Sousa \textit{et~al.}~\cite{desousa2026smartmeter} implementaron un medidor monofásico con ESP32-S3 y una plataforma basada en MQTT, InfluxDB y Grafana; reportaron un error porcentual absoluto medio de \SI{4,56}{\percent} en corriente frente a un analizador de referencia y latencias de \SIrange{203,63}{290,86}{ms} en el servidor.
+Finalmente, en el análisis de datos de consumo, Oprea \textit{et~al.}~\cite{oprea2021anomaly} detectaron anomalías en datos de medidores inteligentes con una exactitud del \SI{90}{\percent}, y Zheng \textit{et~al.}~\cite{zheng2023thresholds} propusieron umbrales dinámicos para detectar fluctuaciones y picos anómalos en equipos industriales.
+
+% C. Limitations of prior work (narrowed to what the evidence supports).
+Estos antecedentes muestran avances significativos, pero también limitaciones recurrentes.
+Primero, la validación metrológica es heterogénea: algunos trabajos no identifican el instrumento de referencia~\cite{rohman2025esp32}, otros reportan el error de una sola magnitud~\cite{desousa2026smartmeter} y otros evalúan un conjunto reducido de cargas~\cite{rohman2025esp32}.
+Segundo, la latencia extremo a extremo rara vez se cuantifica; entre los trabajos revisados, solo~\cite{desousa2026smartmeter} reporta valores medidos.
+Tercero, aunque algunos sistemas almacenan datos sin conexión~\cite{kizonde2023monitoringnode}, en los trabajos revisados no se reporta una evaluación controlada de la recuperación de mediciones tras una interrupción de la comunicación.
+Cuarto, los métodos de análisis de consumo suelen evaluarse sobre conjuntos de datos independientes del hardware de medición~\cite{oprea2021anomaly,zheng2023thresholds}, por lo que su desempeño no se vincula con la calidad de las mediciones que los alimentan.
+
+% D. Research gap.
+En consecuencia, la exactitud de medición, el desempeño de la comunicación, la tolerancia a desconexiones y el análisis del consumo suelen estudiarse en trabajos separados.
+En la literatura revisada no se identificó un prototipo de bajo costo que evalúe conjuntamente la exactitud frente a un instrumento de referencia, la latencia de actualización, la recuperación ante interrupciones de red y la caracterización de patrones de consumo.
+
+% E. Objective and contributions (aligned with spec 001; no results stated).
+El objetivo de este trabajo es diseñar, implementar y evaluar experimentalmente un sistema IoT para el monitoreo y análisis del consumo de energía eléctrica en tiempo real flexible, aplicado a un circuito monofásico de laboratorio, y evaluar su desempeño frente a un instrumento de referencia.
+Las principales contribuciones son:
+\begin{enumerate}
+  \item una arquitectura IoT que integra adquisición simultánea de tensión y corriente, cálculo local de potencia activa y energía, transmisión MQTT con confirmación de entrega y cola persistente, y almacenamiento en una base de datos de series temporales;
+  \item un módulo de análisis que agrega el consumo por hora, día y semana, identifica los periodos de máxima demanda y genera alertas por umbral con confirmación temporal para descartar transitorios de arranque;
+  \item una evaluación experimental de la exactitud de tensión, corriente, potencia activa y energía frente a un instrumento de referencia, con cargas resistivas de distinta potencia y una carga inductiva o no lineal;
+  \item una evaluación de la latencia de actualización, la confiabilidad de entrega y la recuperación de datos tras interrupciones controladas de la red; y
+  \item un análisis de las limitaciones técnicas del sistema en distintas condiciones de carga.
+\end{enumerate}
+
+El resto del artículo se organiza como sigue.
+La Sección~\ref{sec:methodology} describe la metodología, la arquitectura y el diseño experimental.
+La Sección~\ref{sec:results} presenta y discute los resultados.
+La Sección~\ref{sec:conclusions} resume las conclusiones y el trabajo futuro.
